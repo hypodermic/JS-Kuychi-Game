@@ -1,0 +1,22 @@
+{
+  "name": "jskuychigame",
+  "version": "1.0.0",
+  "description": "Kuychi language game",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hypodermic/JS-Kuychi-Game.git"
+  },
+  "keywords": [
+    "jsgame"
+  ],
+  "author": "Cecilia De La Fuente",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hypodermic/JS-Kuychi-Game/issues"
+  },
+  "homepage": "https://github.com/hypodermic/JS-Kuychi-Game#readme"
+}
