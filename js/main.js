@@ -125,7 +125,99 @@ Spider.prototype.die = function () {
 // =============================================================================
 // game states
 // =============================================================================
+MainMenuState = {};
+MainMenuState.init = function (data) {
+    this.game.renderer.renderSession.roundPixels = true;
 
+    this.keys = this.game.input.keyboard.addKeys({
+        left: Phaser.KeyCode.LEFT,
+        right: Phaser.KeyCode.RIGHT,
+        up: Phaser.KeyCode.UP
+    });
+
+    this.keys.up.onDown.add(function () {
+        let didJump = this.hero.jump();
+        if (didJump) {
+            this.sfx.jump.play();
+        }
+    }, this);
+	//this.start0;
+};
+MainMenuState.preload = function () {
+    this.game.load.json('start0', 'data/start0.json');
+	this.game.load.image('endgame', 'images/endgame.png');
+	this.game.load.image('ground', 'images/ground.png');
+    this.game.load.image('grass:6x1', 'images/grass_6x1.png');
+    
+    this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
+    
+    this.game.load.audio('sfx:jump', 'audio/jump.wav');
+    this.game.load.audio('sfx:platform', 'audio/coin.wav');
+};
+MainMenuState.create = function () {
+    // create sound entities
+    this.sfx = {
+        jump: this.game.add.audio('sfx:jump'),
+        platform: this.game.add.audio('sfx:platform'),
+    };
+    // create level
+    this.game.add.image(0, 0, 'endgame');
+    this._loadLevel(this.game.cache.getJSON('start0'));
+
+};
+MainMenuState.update = function () {
+    this._handleCollisions();
+    this._handleInput();
+};
+MainMenuState._handleCollisions = function () {
+   this.game.physics.arcade.collide(this.hero, this.platforms);
+    this.game.physics.arcade.overlap(this.hero, this.platforms, this._onHeroVsPlatform,
+        null, this);
+};
+MainMenuState._handleInput = function () {
+    if (this.keys.left.isDown) { // move hero left
+        this.hero.move(-1);
+    }
+    else if (this.keys.right.isDown) { // move hero right
+        this.hero.move(1);
+    }
+    else { // stop
+        this.hero.move(0);
+    }
+};
+MainMenuState._loadLevel = function (data) {
+    // create all the groups/layers that we need
+    this.platforms = this.game.add.group();
+    // spawn all platforms
+    data.platforms.forEach(this._spawnPlatform, this);
+    // spawn hero and enemies
+    this._spawnCharacters({hero: data.hero});
+    // enable gravity
+    const GRAVITY = 1200;
+    this.game.physics.arcade.gravity.y = GRAVITY;
+};
+
+MainMenuState._spawnPlatform = function (platform) {
+    let sprite = this.platforms.create(
+        platform.x, platform.y, platform.image);
+
+    this.game.physics.enable(sprite);
+    sprite.body.allowGravity = false;
+    sprite.body.immovable = true;
+};
+
+MainMenuState._spawnCharacters = function (data) {
+    // spawn hero
+    this.hero = new Hero(this.game, data.hero.x, data.hero.y);
+    this.game.add.existing(this.hero);
+};
+
+MainMenuState._onHeroVsPlatform = function (hero, platform) {
+    this.sfx.platform.play();
+    platform.kill();
+};
+
+//!!!!!!!!!!!!!!!!
 PlayState = {};
 
 const LEVEL_COUNT = 4;
@@ -463,7 +555,9 @@ PlayState._createHud = function () {
 
 window.onload = function () {
     let game = new Phaser.Game(960, 600, Phaser.AUTO, 'game');
-    game.state.add('play', PlayState);
-    game.state.start('play', true, false, {level: 0});
+	game.state.add('main', MainMenuState);
+	game.state.start('main', true, false, 'start0');
+    //game.state.add('play', PlayState);
+    //game.state.start('play', true, false, {level: 0});
 	//start screen with on this level youll learn these quechua words and translations help kuychi collect all the right words and button to start game
 };
