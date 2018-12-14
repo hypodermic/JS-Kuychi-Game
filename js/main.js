@@ -125,6 +125,119 @@ Spider.prototype.die = function () {
 // =============================================================================
 // game states
 // =============================================================================
+EndGameState = {};
+let openWeb = false;
+EndGameState.init = function (data) {
+    this.game.renderer.renderSession.roundPixels = true;
+
+    this.keys = this.game.input.keyboard.addKeys({
+        left: Phaser.KeyCode.LEFT,
+        right: Phaser.KeyCode.RIGHT,
+        up: Phaser.KeyCode.UP
+    });
+
+    this.keys.up.onDown.add(function () {
+        let didJump = this.hero.jump();
+        if (didJump) {
+            this.sfx.jump.play();
+        }
+    }, this);
+	//this.start0;
+};
+EndGameState.preload = function () {
+    this.game.load.json('start0', 'data/start0.json');
+	this.game.load.image('endgame', 'images/endgame.png');
+	this.game.load.image('ground', 'images/ground.png');
+    this.game.load.image('grass:6x1', 'images/grass_6x1.png');
+    
+    this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
+    
+    this.game.load.audio('sfx:jump', 'audio/jump.wav');
+    this.game.load.audio('sfx:platform', 'audio/coin.wav');
+};
+EndGameState.create = function () {
+    // create sound entities
+    this.sfx = {
+        jump: this.game.add.audio('sfx:jump'),
+        platform: this.game.add.audio('sfx:platform'),
+    };
+    // create level
+    this.game.add.image(0, 0, 'endgame');
+    this._loadLevel(this.game.cache.getJSON('start0'));
+
+};
+EndGameState.update = function () {
+    this._handleCollisions();
+    this._handleInput();
+};
+EndGameState._handleCollisions = function () {
+   this.game.physics.arcade.collide(this.hero, this.platforms);
+    this.game.physics.arcade.overlap(this.hero, this.coin, this._onHeroVsCoin,
+        null, this);
+};
+EndGameState._handleInput = function () {
+    if (this.keys.left.isDown) { // move hero left
+        this.hero.move(-1);
+    }
+    else if (this.keys.right.isDown) { // move hero right
+        this.hero.move(1);
+    }
+    else { // stop
+        this.hero.move(0);
+    }
+};
+EndGameState._loadLevel = function (data) {
+    // create all the groups/layers that we need
+    this.platforms = this.game.add.group();
+	this.coin = this.game.add.group();
+    // spawn all platforms
+    data.platforms.forEach(this._spawnPlatform, this);
+	data.coin.forEach(this._spawnCoin, this);
+    // spawn hero and enemies
+    this._spawnCharacters({hero: data.hero});
+    // enable gravity
+    const GRAVITY = 1200;
+    this.game.physics.arcade.gravity.y = GRAVITY;
+};
+
+EndGameState._spawnPlatform = function (platform) {
+    let sprite = this.platforms.create(
+        platform.x, platform.y, platform.image);
+
+    this.game.physics.enable(sprite);
+    sprite.body.allowGravity = false;
+    sprite.body.immovable = true;
+};
+EndGameState._spawnCoin = function (coin) {
+    let sprite = this.coin.create(
+        coin.x, coin.y, coin.image);
+
+    this.game.physics.enable(sprite);
+    sprite.body.allowGravity = false;
+    sprite.body.immovable = true;
+};
+
+EndGameState._spawnCharacters = function (data) {
+    // spawn hero
+    this.hero = new Hero(this.game, data.hero.x, data.hero.y);
+    this.game.add.existing(this.hero);
+};
+
+EndGameState._onHeroVsCoin = function (hero, platform) {
+	openWeb = true;
+    this.sfx.platform.play();
+    //platform.kill();
+	//startGame = true;
+	if (openWeb === true) {
+	window.open("http://www.kuychiproject.com/", "_blank");
+	openWeb = false;
+	}
+};
+EndGameState.shutdown = function () {
+	//this.hero.kill();
+};
+
+//!!!!!!!!!!!!
 MainMenuState = {};
 //let startGame = false;
 MainMenuState.init = function (data) {
@@ -230,7 +343,9 @@ MainMenuState._onHeroVsCoin = function (hero, platform) {
 	this.game.state.add('play', PlayState);
 		this.game.state.start('play', true, false, {level: 0});
 };
-
+MainMenuState.shutdown = function () {
+	//this.hero.kill();
+}
 //!!!!!!!!!!!!!!!!
 PlayState = {};
 
@@ -255,7 +370,7 @@ PlayState.init = function (data) {
     
     this.hasKey = 0;
     this.level = (data.level || 0) % LEVEL_COUNT;
-	console.log(data.level);
+	console.log(this.level);
 	
 };
 
@@ -531,7 +646,12 @@ PlayState._onHeroVsBadKey = function (hero, bkey) {
 
 PlayState._onHeroVsDoor = function (hero, door) {
     this.sfx.door.play();
+	if (this.level === 3) {
+		this.game.state.add('end', EndGameState);
+		this.game.state.start('end', true, false, 'start0');
+	} else {
     this.game.state.restart(true, false, { level: this.level + 1 });
+	}
 	//conditional last level then end screen showing total coins and info for more with restart button
 };
 
