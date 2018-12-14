@@ -172,7 +172,7 @@ EndGameState.update = function () {
 };
 EndGameState._handleCollisions = function () {
    this.game.physics.arcade.collide(this.hero, this.platforms);
-    this.game.physics.arcade.overlap(this.hero, this.coin, this._onHeroVsCoin,
+    this.game.physics.arcade.collide(this.hero, this.coin, this._onHeroVsCoin,
         null, this);
 };
 EndGameState._handleInput = function () {
@@ -224,14 +224,14 @@ EndGameState._spawnCharacters = function (data) {
 };
 
 EndGameState._onHeroVsCoin = function (hero, platform) {
-	openWeb = true;
+	//openWeb = true;
     this.sfx.platform.play();
-    //platform.kill();
+    platform.kill();
 	//startGame = true;
-	if (openWeb === true) {
+	//if (openWeb === true) {
 	window.open("http://www.kuychiproject.com/", "_blank");
-	openWeb = false;
-	}
+	//openWeb = false;
+	//}
 };
 EndGameState.shutdown = function () {
 	//this.hero.kill();
