@@ -142,7 +142,6 @@ EndGameState.init = function (data) {
             this.sfx.jump.play();
         }
     }, this);
-	//this.start0;
 };
 EndGameState.preload = function () {
     this.game.load.json('start0', 'data/start0.json');
@@ -232,6 +231,8 @@ EndGameState._onHeroVsCoin = function (hero, platform) {
 	window.open("http://www.kuychiproject.com/", "_blank");
 	//openWeb = false;
 	//}
+	this.game.state.add('main', MainMenuState);
+		this.game.state.start('main', true, false, 'start0');
 };
 EndGameState.shutdown = function () {
 	//this.hero.kill();
