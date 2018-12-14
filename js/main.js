@@ -126,6 +126,7 @@ Spider.prototype.die = function () {
 // game states
 // =============================================================================
 MainMenuState = {};
+//let startGame = false;
 MainMenuState.init = function (data) {
     this.game.renderer.renderSession.roundPixels = true;
 
@@ -171,7 +172,7 @@ MainMenuState.update = function () {
 };
 MainMenuState._handleCollisions = function () {
    this.game.physics.arcade.collide(this.hero, this.platforms);
-    this.game.physics.arcade.overlap(this.hero, this.platforms, this._onHeroVsPlatform,
+    this.game.physics.arcade.overlap(this.hero, this.coin, this._onHeroVsCoin,
         null, this);
 };
 MainMenuState._handleInput = function () {
@@ -188,8 +189,10 @@ MainMenuState._handleInput = function () {
 MainMenuState._loadLevel = function (data) {
     // create all the groups/layers that we need
     this.platforms = this.game.add.group();
+	this.coin = this.game.add.group();
     // spawn all platforms
     data.platforms.forEach(this._spawnPlatform, this);
+	data.coin.forEach(this._spawnCoin, this);
     // spawn hero and enemies
     this._spawnCharacters({hero: data.hero});
     // enable gravity
@@ -205,6 +208,14 @@ MainMenuState._spawnPlatform = function (platform) {
     sprite.body.allowGravity = false;
     sprite.body.immovable = true;
 };
+MainMenuState._spawnCoin = function (coin) {
+    let sprite = this.coin.create(
+        coin.x, coin.y, coin.image);
+
+    this.game.physics.enable(sprite);
+    sprite.body.allowGravity = false;
+    sprite.body.immovable = true;
+};
 
 MainMenuState._spawnCharacters = function (data) {
     // spawn hero
@@ -212,9 +223,12 @@ MainMenuState._spawnCharacters = function (data) {
     this.game.add.existing(this.hero);
 };
 
-MainMenuState._onHeroVsPlatform = function (hero, platform) {
+MainMenuState._onHeroVsCoin = function (hero, platform) {
     this.sfx.platform.play();
     platform.kill();
+	//startGame = true;
+	this.game.state.add('play', PlayState);
+		this.game.state.start('play', true, false, {level: 0});
 };
 
 //!!!!!!!!!!!!!!!!
@@ -557,7 +571,10 @@ window.onload = function () {
     let game = new Phaser.Game(960, 600, Phaser.AUTO, 'game');
 	game.state.add('main', MainMenuState);
 	game.state.start('main', true, false, 'start0');
-    //game.state.add('play', PlayState);
-    //game.state.start('play', true, false, {level: 0});
+    
+	/*if (startGame === true) {
+		game.state.add('play', PlayState);
+		game.state.start('play', true, false, {level: 0});
+	}*/
 	//start screen with on this level youll learn these quechua words and translations help kuychi collect all the right words and button to start game
 };

@@ -1,6 +1,8 @@
 {
     "platforms": [
-		{"image": "ground", "x": 0, "y": 546},
+		{"image": "ground", "x": 0, "y": 546}
+    ],
+	"coin": [
         {"image": "grass:6x1", "x": 420, "y": 370}
     ],
     "hero": {"x": 21, "y": 525}
