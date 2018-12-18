@@ -444,6 +444,9 @@ PlayState.update = function () {
 	this.keyNum = this.game.cache.getJSON(`level:${this.level}`).keyz.length;
     //this.keyIcon.frame = this.hasKey === 3 ? 1 : 0;
 	this.keyIcon.frame = this.hasKey === this.keyNum ? 1 : 0;
+	if (this.hasKey === this.keyNum) {
+		this.door.frame = 1;
+	}
 	
 };
 PlayState.shutdown = function () {
