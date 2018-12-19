@@ -1,0 +1,12 @@
+at the start they show you the words between 5 and 10 with the translations
+when the game starts the words are scattered throughtout the level mixed in with other words, enemies, and pit falls
+when you collect all the correct words you can go through to next level
+but if you collect a wrong word level resets
+
+
+
+let frameNum = function () {
+let rando = Math.Random()*10
+if (deco.frame > ) {}
+
+}
