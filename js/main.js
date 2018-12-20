@@ -564,7 +564,7 @@ PlayState._spawnCoin = function (coin) {
     this.game.physics.enable(sprite);
     sprite.body.allowGravity = false;
 
-    sprite.animations.add('rotate', [0, 1, 2, 1, 0], 6, true); // 6fps, looped
+    sprite.animations.add('rotate', [0, 1, 0, 2], 6, true); // 6fps, looped
     sprite.animations.play('rotate');
 };
 
@@ -573,6 +573,7 @@ PlayState._spawnDoor = function (x, y) {
     this.door.anchor.setTo(0.5, 1);
     this.game.physics.enable(this.door);
     this.door.body.allowGravity = false;
+	
 };
 
 PlayState._spawnKey = function (key) {
