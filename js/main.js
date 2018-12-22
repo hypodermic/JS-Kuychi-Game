@@ -565,7 +565,7 @@ PlayState._spawnCoin = function (coin) {
     this.game.physics.enable(sprite);
     sprite.body.allowGravity = false;
 
-    sprite.animations.add('rotate', [0, 1, 0, 2], 6, true); // 6fps, looped //[0, 1, 2, 1, 0]
+    sprite.animations.add('rotate', [0, 1, 3, 2], 6, true); // 6fps, looped //[0, 1, 2, 1, 0]
     sprite.animations.play('rotate');
 };
 
