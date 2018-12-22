@@ -260,7 +260,7 @@ MainMenuState.init = function (data) {
 };
 MainMenuState.preload = function () {
     this.game.load.json('start0', 'data/start0.json');
-	this.game.load.image('endgame', 'images/endgame.png');
+	this.game.load.image('startgame', 'images/startgame.png');
 	this.game.load.image('ground', 'images/ground.png');
     this.game.load.image('grass:6x1', 'images/grass_6x1.png');
     
@@ -276,7 +276,7 @@ MainMenuState.create = function () {
         platform: this.game.add.audio('sfx:platform'),
     };
     // create level
-    this.game.add.image(0, 0, 'endgame');
+    this.game.add.image(0, 0, 'startgame');
     this._loadLevel(this.game.cache.getJSON('start0'));
 
 };
@@ -385,6 +385,7 @@ PlayState.preload = function () {
 
     this.game.load.image('background', 'images/background.png');
 	
+	this.game.load.image('startgame', 'images/startgame.png');
 	this.game.load.image('endgame', 'images/endgame.png');
 	
     this.game.load.image('ground', 'images/ground.png');
@@ -564,7 +565,7 @@ PlayState._spawnCoin = function (coin) {
     this.game.physics.enable(sprite);
     sprite.body.allowGravity = false;
 
-    sprite.animations.add('rotate', [0, 1, 0, 2], 6, true); // 6fps, looped
+    sprite.animations.add('rotate', [0, 1, 0, 2], 6, true); // 6fps, looped //[0, 1, 2, 1, 0]
     sprite.animations.play('rotate');
 };
 
