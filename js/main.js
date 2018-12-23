@@ -402,7 +402,7 @@ PlayState.preload = function () {
 	this.game.load.spritesheet('badkey', 'images/badkey01.png', 60, 30);
 
     this.game.load.spritesheet('coin', 'images/coin_animated.png', 22, 22);
-    this.game.load.spritesheet('spider', 'images/spider.png', 42, 32);
+    this.game.load.spritesheet('spider', 'images/spider.png', 43, 32);
     this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
     this.game.load.spritesheet('door', 'images/door.png', 42, 66);
     this.game.load.spritesheet('icon:key', 'images/key_icon.png', 34, 30);
@@ -565,7 +565,7 @@ PlayState._spawnCoin = function (coin) {
     this.game.physics.enable(sprite);
     sprite.body.allowGravity = false;
 
-    sprite.animations.add('rotate', [0, 1, 3, 2], 3, true); // 6fps, looped //[0, 1, 2, 1, 0]
+    sprite.animations.add('rotate', [0, 1, 3, 2], 4, true); // 6fps, looped //[0, 1, 2, 1, 0]
     sprite.animations.play('rotate');
 };
 
