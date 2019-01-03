@@ -242,8 +242,14 @@ EndGameState.shutdown = function () {
 //!!!!!!!!!!!!
 MainMenuState = {};
 //let startGame = false;
+
+
+
 MainMenuState.init = function (data) {
     this.game.renderer.renderSession.roundPixels = true;
+	
+	
+	
 
     this.keys = this.game.input.keyboard.addKeys({
         left: Phaser.KeyCode.LEFT,
@@ -259,18 +265,24 @@ MainMenuState.init = function (data) {
     }, this);
 	//this.start0;
 };
+
 MainMenuState.preload = function () {
     this.game.load.json('start0', 'data/start0.json');
 	this.game.load.image('startgame', 'images/startgame.png');
 	this.game.load.image('ground', 'images/ground.png');
+	//////////////////////////////
+    this.game.load.image('button', 'images/grass_6x1.png');
     this.game.load.image('grass:6x1', 'images/grass_6x1.png');
-    
     this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
     
     this.game.load.audio('sfx:jump', 'audio/jump.wav');
     this.game.load.audio('sfx:platform', 'audio/coin.wav');
 };
+/////////////////////
+var button;
 MainMenuState.create = function () {
+	//game.add.image(game.world.centerX - 95, 460, 'grass:6x1', openWindow, this, 2, 1, 0);
+    //image.input.useHandCursor = true;
     // create sound entities
     this.sfx = {
         jump: this.game.add.audio('sfx:jump'),
@@ -279,8 +291,15 @@ MainMenuState.create = function () {
     // create level
     this.game.add.image(0, 0, 'startgame');
     this._loadLevel(this.game.cache.getJSON('start0'));
+	//////////////////////////////////////
+	button = this.game.add.button(100, 370, 'button', openWindow, this);
+	button.input.useHandCursor = true;
+	
 
 };
+function openWindow() {
+ window.open("http://www.kuychiproject.com/", "_blank")
+    }
 MainMenuState.update = function () {
     this._handleCollisions();
     this._handleInput();
@@ -289,6 +308,7 @@ MainMenuState._handleCollisions = function () {
    this.game.physics.arcade.collide(this.hero, this.platforms);
     this.game.physics.arcade.overlap(this.hero, this.coin, this._onHeroVsCoin,
         null, this);
+		
 };
 MainMenuState._handleInput = function () {
     if (this.keys.left.isDown) { // move hero left
