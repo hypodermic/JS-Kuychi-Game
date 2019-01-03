@@ -127,7 +127,7 @@ Spider.prototype.die = function () {
 // game states
 // =============================================================================
 EndGameState = {};
-let openWeb = false;
+
 EndGameState.init = function (data) {
     this.game.renderer.renderSession.roundPixels = true;
 
@@ -148,32 +148,44 @@ EndGameState.preload = function () {
     this.game.load.json('start0', 'data/start0.json');
 	this.game.load.image('endgame', 'images/endgame.png');
 	this.game.load.image('ground', 'images/ground.png');
-    this.game.load.image('grass:6x1', 'images/grass_6x1.png');
+    
+	/////////////////////////
+	this.game.load.image('button', 'images/grass_6x1.png');
     
     this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
     
     this.game.load.audio('sfx:jump', 'audio/jump.wav');
     this.game.load.audio('sfx:platform', 'audio/coin.wav');
 };
+var buttonWeb;
+var buttonRestart;
 EndGameState.create = function () {
     // create sound entities
     this.sfx = {
         jump: this.game.add.audio('sfx:jump'),
-        platform: this.game.add.audio('sfx:platform'),
+        //platform: this.game.add.audio('sfx:platform'),
     };
     // create level
     this.game.add.image(0, 0, 'endgame');
     this._loadLevel(this.game.cache.getJSON('start0'));
-
+	//////////////////////////////
+	buttonWeb = this.game.add.button(100, 370, 'button', openWindow, this);
+	buttonWeb.input.useHandCursor = true;
+	buttonRestart = this.game.add.button(400, 370, 'button', restartGame, this);
 };
+/////////////////
+function restartGame() {
+	//this.game.state.add('main', MainMenuState);
+	this.game.state.start('main', true, false, 'start0');
+}
+
 EndGameState.update = function () {
     this._handleCollisions();
     this._handleInput();
 };
 EndGameState._handleCollisions = function () {
    this.game.physics.arcade.collide(this.hero, this.platforms);
-    this.game.physics.arcade.collide(this.hero, this.coin, this._onHeroVsCoin,
-        null, this);
+    //this.game.physics.arcade.collide(this.hero, this.coin, this._onHeroVsCoin,null, this);
 };
 EndGameState._handleInput = function () {
     if (this.keys.left.isDown) { // move hero left
@@ -189,10 +201,10 @@ EndGameState._handleInput = function () {
 EndGameState._loadLevel = function (data) {
     // create all the groups/layers that we need
     this.platforms = this.game.add.group();
-	this.coin = this.game.add.group();
+	//this.coin = this.game.add.group();
     // spawn all platforms
     data.platforms.forEach(this._spawnPlatform, this);
-	data.coin.forEach(this._spawnCoin, this);
+	//data.coin.forEach(this._spawnCoin, this);
     // spawn hero and enemies
     this._spawnCharacters({hero: data.hero});
     // enable gravity
@@ -225,15 +237,15 @@ EndGameState._spawnCharacters = function (data) {
 
 EndGameState._onHeroVsCoin = function (hero, platform) {
 	//openWeb = true;
-    this.sfx.platform.play();
-    platform.kill();
+   // this.sfx.platform.play();
+    //platform.kill();
 	//startGame = true;
 	//if (openWeb === true) {
-	window.open("http://www.kuychiproject.com/", "_blank");
+	//window.open("http://www.kuychiproject.com/", "_blank");
 	//openWeb = false;
 	//}
-	this.game.state.add('main', MainMenuState);
-		this.game.state.start('main', true, false, 'start0');
+	//this.game.state.add('main', MainMenuState);
+		//this.game.state.start('main', true, false, 'start0');
 };
 EndGameState.shutdown = function () {
 	//this.hero.kill();
@@ -281,8 +293,7 @@ MainMenuState.preload = function () {
 /////////////////////
 var button;
 MainMenuState.create = function () {
-	//game.add.image(game.world.centerX - 95, 460, 'grass:6x1', openWindow, this, 2, 1, 0);
-    //image.input.useHandCursor = true;
+	
     // create sound entities
     this.sfx = {
         jump: this.game.add.audio('sfx:jump'),
