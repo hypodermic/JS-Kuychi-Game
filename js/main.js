@@ -654,13 +654,11 @@ PlayState._spawnBadKey = function (bkey) {
 	sprite.anchor.set(0.5, 0.5);
  
    this.badkeyz.y -= 3;
-    this.game.add.tween(this.badkeyz)
+   this.game.add.tween(this.badkeyz)
         .to({y: this.badkeyz.y + 6}, 800, Phaser.Easing.Sinusoidal.InOut)
         .yoyo(true)
         .loop()
         .start();
-		
-		
 };
 
 
@@ -692,7 +690,6 @@ PlayState._onHeroVsBadKey = function (hero, bkey) {
     this.sfx.stomp.play();
     bkey.kill();
     this.game.state.restart(true, false, {level: this.level});
-	
 };
 
 PlayState._onHeroVsDoor = function (hero, door) {
@@ -701,9 +698,8 @@ PlayState._onHeroVsDoor = function (hero, door) {
 		this.game.state.add('end', EndGameState);
 		this.game.state.start('end', true, false, 'start0');
 	} else {
-    this.game.state.restart(true, false, { level: this.level + 1 });
+		this.game.state.restart(true, false, { level: this.level + 1 });
 	}
-	//conditional last level then end screen showing total coins and info for more with restart button
 };
 
 PlayState._createHud = function () {
@@ -711,8 +707,6 @@ PlayState._createHud = function () {
     this.coinFont = this.game.add.retroFont('font:numbers', 20, 26,
         NUMBERS_STR, 6);
 	
-	
-    
     let coinIcon = this.game.make.image(0, 59, 'icon:coin');
     let coinScoreImg = this.game.make.image(coinIcon.x + coinIcon.width,
         coinIcon.y + coinIcon.height / 2, this.coinFont);
@@ -742,10 +736,4 @@ window.onload = function () {
     let game = new Phaser.Game(960, 600, Phaser.AUTO, 'game');
 	game.state.add('main', MainMenuState);
 	game.state.start('main', true, false, 'start0');
-    
-	/*if (startGame === true) {
-		game.state.add('play', PlayState);
-		game.state.start('play', true, false, {level: 0});
-	}*/
-	//start screen with on this level youll learn these quechua words and translations help kuychi collect all the right words and button to start game
 };
