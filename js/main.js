@@ -146,11 +146,14 @@ EndGameState.init = function (data) {
 };
 EndGameState.preload = function () {
     this.game.load.json('start0', 'data/start0.json');
-	this.game.load.image('endgame', 'images/endgame.png');
+	this.game.load.image('endgame', 'images/endgame.jpg');
 	this.game.load.image('ground', 'images/ground.png');
     
 	/////////////////////////
-	this.game.load.image('button', 'images/grass_6x1.png');
+	
+	this.game.load.image('button', 'images/websitelogo1.png');
+	this.game.load.image('button1', 'images/starttile.png');
+    
     
     this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
     
@@ -169,9 +172,9 @@ EndGameState.create = function () {
     this.game.add.image(0, 0, 'endgame');
     this._loadLevel(this.game.cache.getJSON('start0'));
 	//////////////////////////////
-	buttonWeb = this.game.add.button(100, 370, 'button', openWindow, this);
+	buttonWeb = this.game.add.button(100, 300, 'button', openWindow, this);
 	buttonWeb.input.useHandCursor = true;
-	buttonRestart = this.game.add.button(400, 370, 'button', restartGame, this);
+	buttonRestart = this.game.add.button(400, 370, 'button1', restartGame, this);
 };
 /////////////////
 function restartGame() {
