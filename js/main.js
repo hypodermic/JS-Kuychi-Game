@@ -284,7 +284,7 @@ MainMenuState.preload = function () {
 	this.game.load.image('ground', 'images/ground.png');
 	//////////////////////////////
     this.game.load.image('button', 'images/websitelogo1.png');
-    this.game.load.image('grass:6x1', 'images/grass_6x1.png');
+    this.game.load.image('grass:6x1', 'images/starttile.png');
     this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
     
     this.game.load.audio('sfx:jump', 'audio/jump.wav');
