@@ -280,7 +280,7 @@ MainMenuState.init = function (data) {
 
 MainMenuState.preload = function () {
     this.game.load.json('start0', 'data/start0.json');
-	this.game.load.image('startgame', 'images/startgame.png');
+	this.game.load.image('startgame', 'images/startgame.jpg');
 	this.game.load.image('ground', 'images/ground.png');
 	//////////////////////////////
     this.game.load.image('button', 'images/websitelogo1.png');
@@ -303,7 +303,7 @@ MainMenuState.create = function () {
     this.game.add.image(0, 0, 'startgame');
     this._loadLevel(this.game.cache.getJSON('start0'));
 	//////////////////////////////////////
-	button = this.game.add.button(895, 51, 'button', openWindow, this);
+	button = this.game.add.button(855, 26, 'button', openWindow, this);
 	button.input.useHandCursor = true;
 	
 
