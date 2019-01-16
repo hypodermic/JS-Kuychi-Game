@@ -152,7 +152,9 @@ EndGameState.preload = function () {
 	/////////////////////////
 	
 	this.game.load.image('button', 'images/websitelogo1.png');
-	this.game.load.image('button1', 'images/starttile.png');
+	this.game.load.image('button1', 'images/restarttile.png');
+	this.game.load.image('button2', 'images/instagramlogo.png');
+	this.game.load.image('button3', 'images/facebooklogo.png');
     
     
     this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
@@ -162,6 +164,9 @@ EndGameState.preload = function () {
 };
 var buttonWeb;
 var buttonRestart;
+var buttonInsta;
+var buttonFace;
+
 EndGameState.create = function () {
     // create sound entities
     this.sfx = {
@@ -172,11 +177,20 @@ EndGameState.create = function () {
     this.game.add.image(0, 0, 'endgame');
     this._loadLevel(this.game.cache.getJSON('start0'));
 	//////////////////////////////
-	buttonWeb = this.game.add.button(100, 300, 'button', openWindow, this);
+	buttonWeb = this.game.add.button(290, 240, 'button', openWindow, this);
 	buttonWeb.input.useHandCursor = true;
-	buttonRestart = this.game.add.button(400, 370, 'button1', restartGame, this);
+	buttonRestart = this.game.add.button(400, 340, 'button1', restartGame, this);
+	buttonInsta = this.game.add.button(450, 240, 'button2', openInsta, this);
+	buttonFace = this.game.add.button(600, 240, 'button3', openFace, this);
 };
 /////////////////
+function openInsta() {
+ window.open("https://www.instagram.com/kuychiproject/", "_blank")
+    }
+function openFace() {
+ window.open("https://www.facebook.com/Kuychi-435800183533124/", "_blank")
+    }	
+
 function restartGame() {
 	//this.game.state.add('main', MainMenuState);
 	this.game.state.start('main', true, false, 'start0');
@@ -288,6 +302,10 @@ MainMenuState.preload = function () {
 	//////////////////////////////
     this.game.load.image('button', 'images/websitelogo1.png');
     this.game.load.image('grass:6x1', 'images/starttile.png');
+	
+	this.game.load.image('button2', 'images/instagramlogo.png');
+	this.game.load.image('button3', 'images/facebooklogo.png');
+	
     this.game.load.spritesheet('hero', 'images/hero.png', 36, 42);
     
     this.game.load.audio('sfx:jump', 'audio/jump.wav');
@@ -308,7 +326,8 @@ MainMenuState.create = function () {
 	//////////////////////////////////////
 	button = this.game.add.button(855, 26, 'button', openWindow, this);
 	button.input.useHandCursor = true;
-	
+	buttonInsta = this.game.add.button(855, 126, 'button2', openInsta, this);
+	buttonFace = this.game.add.button(855, 226, 'button3', openFace, this);
 
 };
 function openWindow() {
