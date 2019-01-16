@@ -303,7 +303,7 @@ MainMenuState.create = function () {
     this.game.add.image(0, 0, 'startgame');
     this._loadLevel(this.game.cache.getJSON('start0'));
 	//////////////////////////////////////
-	button = this.game.add.button(100, 370, 'button', openWindow, this);
+	button = this.game.add.button(895, 51, 'button', openWindow, this);
 	button.input.useHandCursor = true;
 	
 
