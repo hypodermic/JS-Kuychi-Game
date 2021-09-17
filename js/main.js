@@ -331,7 +331,7 @@ MainMenuState.create = function () {
 
 };
 function openWindow() {
- window.open("http://www.kuychiproject.com/", "_blank")
+ window.open("https://forms.gle/gW5an78GgXbbZtas9", "_blank")
     }
 MainMenuState.update = function () {
     this._handleCollisions();
