@@ -483,7 +483,7 @@ PlayState.create = function () {
         door: this.game.add.audio('sfx:door'),
 		bgm: this.game.add.audio('sfx:bgm')
     };
-//this.sfx.bgm.loopFull();
+this.sfx.bgm.loopFull();
     // create level
     this.game.add.image(0, 0, 'background');
     this._loadLevel(this.game.cache.getJSON(`level:${this.level}`));
